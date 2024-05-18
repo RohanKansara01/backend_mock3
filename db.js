@@ -4,8 +4,8 @@ const connection=mongoose.connect(`mongodb+srv://rohankansara2000:test@databaset
 
 
 const userSchema=mongoose.Schema({
-    email:{type:String, required:true},
-    password:{type:String, required:true},
+    Email:{type:String, required:true},
+    Password:{type:String, required:true},
     ConfirmPassword:{type:String, required:true},
 })
 const userModel=mongoose.model("userData", userSchema);
