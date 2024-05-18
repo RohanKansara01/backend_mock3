@@ -1,5 +1,5 @@
 const express=require('express');
-const { userModel } = require('./db');
+const { userModel, employeeModel } = require('./db');
 const app=express();
 app.use(express.json());
 const bcrypt = require('bcrypt');
@@ -58,6 +58,65 @@ app.post("/login", async(req, res)=>{
         res.status(200).send({message:'User Found', token:token}); 
     } catch (error) {
         console.log(error);
+        res.status(500).send('Internal Server Error'); 
+    }
+});
+
+
+//display employeeData
+app.get("/", async(req, res)=>{
+    try {
+        const data=await employeeModel.find();
+        res.send(data);
+        console.log('Data fetched successfully');
+    } catch (error) {
+        console.log('Error fetching the data', error);
+        res.status(500).send('Internal Server Error'); 
+    }
+});
+
+
+//post employee data
+app.post('/employee', async(req, res)=>{
+    try {
+        const data=await employeeModel.create(req.body);
+        res.send(data);
+        console.log('Data posted successfully');
+    } catch (error) {
+        console.log('Error posting the data', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+//Edit employee data
+app.put('/employee/:id', async(req, res)=>{
+    try {
+        const data=req.body;
+        const update=await employeeModel.findById(req.params.id);
+        update.FirstName=data.FirstName || update.FirstName;
+        update.LastName=data.LastName || update.LastName;
+        update.Email=data.Email || update.Email;
+        update.Department=data.Department || update.Department;
+        update.Salary=data.Salary || update.Salary;
+        const updatedData=await update.save();
+        res.status(200).send(updatedData);
+        console.log('Data updated successfully');
+    } catch (error) {
+        console.log('Error updating the data', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+//delete employee data
+app.delete('/employee/:id', async (req, res) => {
+    try {
+        const data=await employeeModel.findByIdAndDelete(req.params.id);
+        res.status(200).send(data);
+        console.log('Data deleted successfully');
+    } catch (error) {
+        console.log('Error deleting the data', error);
         res.status(500).send('Internal Server Error'); 
     }
 });
