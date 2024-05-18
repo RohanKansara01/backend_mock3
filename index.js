@@ -124,7 +124,7 @@ app.delete('/employee/:id', async (req, res) => {
 });
 
 
-const PORT=8080;
+const PORT=3000;
 app.listen(PORT,()=>{
     try {
         console.log("Server is running on PORT: ",PORT);
