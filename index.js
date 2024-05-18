@@ -4,6 +4,8 @@ const app=express();
 app.use(express.json());
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
+app.use(cors());
 
 
 //SignUp
